@@ -25,7 +25,7 @@ const create = catchError(async (req, res) => {
 // UPDATE
 const update = catchError(async (req, res) => {
     const { id } = req.params;
-
+    const restrict = ["password","email"];
 
     const result = await User.update(req.body, { where: { id }, returning: true });
     return result[0] === 0 ? res.sendStatus(404) : res.json(result[1][0]);
