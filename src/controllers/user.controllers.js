@@ -13,14 +13,21 @@ const getAll = catchError(async (req, res) => {
 
 // POST
 const create = catchError(async (req, res) => {
-    const result = await User.create(req.body);
-    return res.status(201).json(result);
+    const {email}= req.body;
+    //comprobar si es formato valido con regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return !emailRegex.test(email)?  res.status(400).json({error:"coloque correo valido"})
+    :res.status(201).json( await User.create(req.body));
+
 });
 
 // UPDATE
 const update = catchError(async (req, res) => {
     const { id } = req.params;
-    const restrict = ["password","email"];
+    const restrict = ["password","email","phone"];
+    restrict.forEach((e)=>{
+        delete req.body[e]
+    })
 
     const result = await User.update(req.body, { where: { id }, returning: true });
     return result[0] === 0 ? res.sendStatus(404) : res.json(result[1][0]);
