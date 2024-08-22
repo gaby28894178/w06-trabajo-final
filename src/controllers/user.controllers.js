@@ -9,12 +9,7 @@ const getAll = catchError(async (req, res) => {
     return res.json(result);
 });
 
-// Get One
-const getOne = catchError(async (req, res) => {
-    const { id } = req.params;
-    const result = await User.findByPk(id);
-    return !result ? res.status(404).json({ msj: 'Nada q Mostrar' }) : res.json(result);
-});
+
 
 // POST
 const create = catchError(async (req, res) => {
@@ -35,7 +30,7 @@ const update = catchError(async (req, res) => {
 const destroy = catchError(async (req, res) => {
     const { id } = req.params;
     const result = await User.destroy({ where: { id } });
-    return !result ? res.status(404).json({ msj: 'Nada Para mostrar' }) : res.status(204).json({ msg: 'Dato Eliminado con Exito' });
+    return !result ? res.status(404).json({ msj: 'Nada Para mostrar' }) : res.status(200).json({ msg: 'Dato Eliminado con Exito' });
 });
 
 const login = catchError(async(req, res)=>{
@@ -50,7 +45,6 @@ const login = catchError(async(req, res)=>{
 
 module.exports = {
     getAll,
-    getOne,
     create,
     update,
     destroy,

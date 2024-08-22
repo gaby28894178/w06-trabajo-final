@@ -1,4 +1,4 @@
-const { getAll, getOne, create, update, destroy } = require('../controllers/user.controllers');
+const { getAll,  create, update, destroy } = require('../controllers/user.controllers');
 
 const express = require('express');
 
@@ -9,7 +9,7 @@ userRouter.route('/')
     .post(create);
 
 userRouter.route('/:id')
-    .get(getOne)
+    // .get(getOne)
     .delete(destroy)
     .put(update);
 
