@@ -1,6 +1,7 @@
 const catchError = require('../utils/catchError');
 const User = require('../models/User');
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken')
 // const { where } = require('sequelize');
 
 // Get All
@@ -28,7 +29,6 @@ const update = catchError(async (req, res) => {
     restrict.forEach((e)=>{
         delete req.body[e]
     })
-
     const result = await User.update(req.body, { where: { id }, returning: true });
     return result[0] === 0 ? res.sendStatus(404) : res.json(result[1][0]);
 });
@@ -42,11 +42,21 @@ const destroy = catchError(async (req, res) => {
 
 const login = catchError(async(req, res)=>{
     const {email, password}= req.body
-    const user = await User.findOne({where:{email}})
+    const user = await User.findOne({where:{ email }})
     if (!user) return res.status(401).json({msg:"User Not Found "})
+
      const isValid = await bcrypt.compare(password,user.password)
     if(!isValid)return res.sendStatus(401)
-        return res.json(user)
+    const token = jwt.sign(
+        {user},
+        process.env.TOKEN_SECRET,
+        {expiresIn:'1d'}
+    )
+    return res.json({user,token})
+})
+
+const me = catchError(async(req, res)=>{
+    
 })
 
 
