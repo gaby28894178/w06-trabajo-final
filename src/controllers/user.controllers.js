@@ -1,5 +1,5 @@
-const catchError = require('../utils/catchError');
 const User = require('../models/User');
+const catchError = require('../utils/catchError');
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 // const { where } = require('sequelize');
@@ -52,7 +52,7 @@ const login = catchError(async(req, res)=>{
         process.env.TOKEN_SECRET,
         {expiresIn:'1d'}
     )
-    return res.json({user,token})
+    return res.status(200).json({user,token})
 })
 
 const me = catchError(async(req, res)=>{
