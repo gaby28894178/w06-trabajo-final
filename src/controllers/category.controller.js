@@ -1,26 +1,28 @@
-const catchError = require('../utils/catchError');
 const Category = require('../models/Category');
+const catchError = require('../utils/catchError');
 
-// Get All
+// Get All Categories
 const getAll = catchError(async (req, res) => {
-    const result = await Category.findAll();
-    return res.json(result);
-});
-// POST
-const create = catchError(async (req, res) => {
-    const result = await Category.create(req.body);
-    return res.status(201).json(result);
+    const categories = await Category.findAll();
+    return res.json(categories);
 });
 
-// DELETE
+// Create Category
+const create = catchError(async (req, res) => {
+    const { name } = req.body;
+    const category = await Category.create({ name });
+    return res.status(201).json(category);
+});
+
+// Delete Category
 const destroy = catchError(async (req, res) => {
     const { id } = req.params;
-    const result = await Category.destroy({ where: { id } });
-    return !result ? res.status(404).json({ msj: 'Nada Para mostrar' }) : res.status(204).json({ msg: 'Dato Eliminado con Exito' });
+    const deleted = await Category.destroy({ where: { id } });
+    return deleted ? res.json({ message: 'Category deleted' }) : res.status(404).json({ message: 'Category not found' });
 });
 
 module.exports = {
-    getAll,  
+    getAll,
     create,
-    destroy
+    destroy,
 };
