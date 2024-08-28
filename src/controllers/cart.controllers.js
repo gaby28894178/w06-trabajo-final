@@ -10,11 +10,15 @@ const getAll = catchError(async (req, res) => {
     include: [
       {
         model: Product,
-        attributes: { exclude: ['updatedAt', 'createdAt'] },
+        attributes: {
+           exclude: ['updatedAt', 'createdAt'] 
+          
+          },
+
         include: [
           {
-            model: Category,
-            attributes: ['name', 'id']
+             model: Category,
+              attributes: ['name', 'id'] 
           }
         ]
       }
@@ -23,11 +27,14 @@ const getAll = catchError(async (req, res) => {
   return res.json(results);
 });
 
+//opcion 1 
 // const create = catchError(async (req, res) => {
 //   const userId = req.user.id
 //   const result = await Cart.create({ ...req.body, userId });
 //   return res.status(201).json(result);
 // });
+
+//opcion 2 destructuro paso variable
 
 const create = catchError(async (req, res) => {
   const userId = req.user.id

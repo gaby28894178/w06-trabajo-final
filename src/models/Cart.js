@@ -6,6 +6,7 @@ const Cart = sequelize.define('cart', {
     type: DataTypes.INTEGER,
     allowNull: false
   },
+  //relaciones
   //userId
   //productId
 });

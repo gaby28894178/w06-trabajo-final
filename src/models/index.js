@@ -17,6 +17,7 @@ User.hasMany(Cart);
 Cart.belongsTo(Product);
 Product.hasMany(Cart);
 
+
 // Relación entre Purchase y User (Purchase -> userId)
 Purchase.belongsTo(User);
 User.hasMany(Purchase);
