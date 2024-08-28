@@ -65,7 +65,7 @@ const remove = catchError(async (req, res) => {
   const { id } = req.params;
   const result = await Cart.destroy({ where: { id, userId } });
   if (!result) return res.sendStatus(404);
-  return res.sendStatus(204);
+  return !result ? res.status(404).json({ msj: 'Nada Para mostrar' }) : res.status(200).json({ msg: 'Dato Eliminado con Exito' });
 });
 
 const update = catchError(async (req, res) => {

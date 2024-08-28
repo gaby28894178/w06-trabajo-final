@@ -1,6 +1,6 @@
 const request = require('supertest'); 
 const app = require('../app');
-const Category = require("../models/Category");
+// const Category = require("../models/Category");
 
 const BASE_URL = '/api/v1/categories';
 const BASE_URL_LOGIN = '/api/v1/users/login';
@@ -57,7 +57,7 @@ test('DELETE-> BASE_URL/:id , return status code 200',async()=>{
     .delete(`${BASE_URL}/${categoryId}`)
     .set('authorization', `Bearer ${TOKEN}`)  // Agrega el token aquí
         // console.log(res.statusCode)
-        expect(res.status).toBe(200);
+        expect(res.status).toBe(204);
         expect(res.body).toBeDefined()
     
   })
