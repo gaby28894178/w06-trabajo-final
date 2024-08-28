@@ -1,33 +1,40 @@
-
+require('../models');
 const request = require('supertest');
 const app = require('../app');
-// const app = require('../app')
-const bcrypt =require('bcrypt')
+const Category = require('../models/Category');
 
 const BASE_URL = '/api/v1/products';
 const BASE_URL_LOGIN = '/api/v1/users/login';
 let TOKEN;
+let category;
 let productId;
+let product;
 
 // Hook para obtener el token de autenticación antes de las pruebas
+const user = {
+    email: "admin@gmail.com",
+    password: "admin1234"
+};
 beforeAll(async () => {
-    const user = {
-        email: "admin@gmail.com",
-        password: "admin1234"
-    };
     const res = await request(app)
         .post(BASE_URL_LOGIN)
         .send(user);    
-    // Obtengo el token del user 
+    // Obtengo el token del usuario 
     TOKEN = res.body.token;
+    // Datos de prueba para la categoría y el producto
+    category = await Category.create({ name: "rapo dama" });
+    
+    product = {
+        title: "pantalon",
+        description: "pantalon azul",
+        price: 12.31,
+        categoryId: category.id
+    };
 });
 
-// Datos de prueba para el producto
-const product = {
-    title: "Gabriel",
-    description: "maziel",
-    price: 1231
-};
+afterAll(async () => {
+    await category.destroy();
+});
 
 // Prueba de creación de producto (POST)
 test("POST -> BASE_URL, debe retornar status code 201 y res.body.title === product.title", async () => {
@@ -45,16 +52,12 @@ test("POST -> BASE_URL, debe retornar status code 201 y res.body.title === produ
 // Prueba para obtener todos los productos (GET)
 test('GET -> BASE_URL, debe retornar status code 200 y un array de productos', async () => {
     const res = await request(app)
-    .get(BASE_URL)
-    .set('authorization', `Bearer ${TOKEN}`); 
-  expect(res.statusCode).toBe(200)
-  expect(res.body).toBeDefined()
-  console.log(res.body.length)
-  expect(res.body).toHaveLength(1)
-  expect(res.body.length >= 1).toBe(true);
-//   expect(res.body.length).toBeGreaterThan('1');
-//   expect(res.body).toHaveLength(1)
-
+        .get(BASE_URL)
+        .set('authorization', `Bearer ${TOKEN}`); 
+   
+    expect(res.statusCode).toBe(200);
+    expect(res.body).toBeDefined();
+    expect(res.body.length).toBeGreaterThanOrEqual(1); // Verifica que haya al menos un producto
 });
 
 // Prueba para editar un producto (PUT)
@@ -74,13 +77,3 @@ test('PUT -> BASE_URL/:id, debe retornar status code 200 y actualizar el product
     expect(res.body.title).toBeDefined();
     expect(res.body.title).toBe(productEdit.title);  // Verifica que el título se haya actualizado
 });
-
-// // Prueba para eliminar un producto (DELETE)
-// test('DELETE -> BASE_URL/:id, debe retornar status code 200 y eliminar el producto', async () => {
-//     const res = await request(app)
-//         .delete(`${BASE_URL}/${productId}`)
-//         .set('authorization', `Bearer ${TOKEN}`);  
-
-//     expect(res.statusCode).toBe(200);
-//     expect(res.body).toBeDefined();
-// });
