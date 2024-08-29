@@ -1,0 +1,64 @@
+// const request = require('supertest'); 
+// const app = require('../app');
+
+// const BASE_URL = '/api/v1/product_images';
+// const BASE_URL_LOGIN = '/api/v1/users/login';
+// let TOKEN;
+// let productImgId;
+
+// // Hook para obtener el token de autenticación antes de las pruebas
+// beforeAll(async () => {
+//     const user = {
+//         email: "admin@gmail.com",
+//         password: "admin1234"
+//     };
+    
+//     const res = await request(app)
+//         .post(BASE_URL_LOGIN)
+//         .send(user);
+    
+//     // Obtengo el token del usuario
+//     TOKEN = res.body.token;
+// });
+
+// // Datos de prueba para la imagen de producto
+// const productImg = {
+//     url: 'http://example.com/image.jpg',
+//     filename: 'image.jpg',
+//     productId: 1  // Asegúrate de que este producto exista en tu base de datos
+// };
+
+// // Prueba para añadir una imagen de producto
+// test('POST -> BASE_URL, debe retornar statusCode 201, y res.body.url === productImg.url', async () => {
+//     const res = await request(app)
+//         .post(BASE_URL)
+//         .send(productImg)
+//         .set('authorization', `Bearer ${TOKEN}`); 
+
+//     productImgId = res.body.id;
+//     expect(res.statusCode).toBe(201);
+//     expect(res.body).toBeDefined();
+//     expect(res.body.url).toBe(productImg.url);  
+// });
+
+// // Prueba para obtener todas las imágenes de productos
+// test('GET -> BASE_URL, debe retornar statusCode 200 y un array de imágenes de productos', async () => {
+//     const res = await request(app)
+//         .get(BASE_URL)
+//         .set('authorization', `Bearer ${TOKEN}`); 
+
+//     expect(res.statusCode).toBe(200);
+//     expect(res.body).toBeDefined();
+//     expect(Array.isArray(res.body)).toBe(true);
+//     expect(res.body.length).toBeGreaterThanOrEqual(1);  // Verificar que al menos haya una imagen de producto
+// });
+
+// // Prueba para eliminar una imagen de producto
+// test('DELETE -> BASE_URL/:id, debe retornar statusCode 204', async () => {
+//     const res = await request(app)
+//         .delete(`${BASE_URL}/${productImgId}`)
+//         .set('authorization', `Bearer ${TOKEN}`);
+
+//     expect(res.statusCode).toBe(204);
+//     expect(res.body).toBeDefined();
+// });

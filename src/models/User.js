@@ -6,16 +6,16 @@ const bcrypt = require('bcrypt')
 const User = sequelize.define('user', {
   firstName: {
     type: DataTypes.STRING,
-    allowNull: false
+    // allowNull: false
   },
   lastName: {
     type: DataTypes.STRING,
-    allowNull: false
+    // allowNull: false
   },
   email: { 
     type: DataTypes.STRING,
     allowNull: false,
-    unique: true
+    nique: true
   },
   password: {
     type: DataTypes.STRING,
@@ -23,7 +23,7 @@ const User = sequelize.define('user', {
   },
   phone: {
     type: DataTypes.STRING,
-    allowNull: false,
+    // allowNull: false,
     // unique: true
     
   },

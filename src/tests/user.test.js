@@ -8,7 +8,7 @@ const bcrypt =require('bcrypt')
 
 const BASE_URL = "/api/v1/users";
 let TOKEN;
-let TOKEN2;
+// let TOKEN2;
 let userId;
 beforeAll(async()=>{
   const user = {
